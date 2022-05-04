@@ -7,9 +7,6 @@ export default function Home({ trend, last_released, top_rated }) {
   const heroes = trend.results.slice(0, 3);
   const lastReleased = last_released.results;
   const topRated = top_rated.results;
-  console.log(heroes);
-  console.log(lastReleased);
-  console.log(topRated);
   return (
     <div className={homeStyle.home}>
       <Layout>

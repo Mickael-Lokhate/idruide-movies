@@ -1,5 +1,6 @@
 import heroesStyle from "./heroes.module.scss";
-import { Button } from "baseui/button";
+import Link from "next/link";
+import Button, { BTN_STYLE } from "./button";
 
 export default function Heroes({ heroes }) {
   const releaseYear = heroes[0].release_date.split("-")[0];
@@ -28,8 +29,12 @@ export default function Heroes({ heroes }) {
             <span className={heroesStyle.year}>({releaseYear})</span>
           </h1>
           <div className={heroesStyle.btnContainer}>
-            <button className={heroesStyle.btnWatch}>Regarder</button>
-            <button className={heroesStyle.btnMore}>En savoir plus</button>
+            <Button style={BTN_STYLE.PLAIN} value={"Regarder"} link={"/"} />
+            <Button
+              style={BTN_STYLE.EMPTY}
+              value={"En savoir plus"}
+              link={`/movie/${heroes[0].id}`}
+            />
           </div>
         </div>
       </div>

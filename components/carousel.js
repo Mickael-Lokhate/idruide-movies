@@ -2,11 +2,16 @@ import carouselStyle from "./carousel.module.scss";
 import ArrowRight from "baseui/icon/arrow-right";
 import ArrowLeft from "baseui/icon/arrow-left";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
-function convertMinutes(min) {
-  let hours = Math.floor(min / 60);
-  let minutes = min % 60;
-  return hours.toString() + "h" + minutes.toString();
+export function convertMinutes(min) {
+  let hours = min / 60;
+  let rhours = Math.floor(hours);
+  let minutes = (hours - rhours) * 60;
+  let rminutes = Math.round(minutes);
+  let final =
+    rhours + (rminutes.toString().length === 1 ? "h0" : "h") + rminutes + "m";
+  return final;
 }
 
 function Movie({ movie }) {
@@ -27,11 +32,16 @@ function Movie({ movie }) {
   if (movieDetails) {
     return (
       <div className={carouselStyle.movie}>
-        <img
-          width={140}
-          src={`https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`}
-        />
-        <h3 className={carouselStyle.movieTitle}>{movie.title}</h3>
+        <Link href={`/movie/${movieDetails.id}`}>
+          <img
+            width={140}
+            src={`https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`}
+            className={carouselStyle.movieImg}
+          />
+        </Link>
+        <Link href={`/movie/${movieDetails.id}`}>
+          <h3 className={carouselStyle.movieTitle}>{movie.title}</h3>
+        </Link>
         <p className={carouselStyle.duration}>
           {convertMinutes(movieDetails.runtime)}
         </p>
@@ -42,8 +52,8 @@ function Movie({ movie }) {
 }
 
 export default function Carousel({ title, data }) {
-  const movies = data.map((m) => {
-    return <Movie movie={m} />;
+  const movies = data.map((m, i) => {
+    return <Movie movie={m} key={i} />;
   });
   return (
     <div className={carouselStyle.container}>
