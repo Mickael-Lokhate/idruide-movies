@@ -1,0 +1,67 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.carousel {
+  display: flex;
+  flex-direction: row;
+}
+
+.arrowContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 20px;
+  background: rgba(16, 16, 16, 0.8);
+  border-radius: 48px;
+  &:hover {
+    cursor: pointer;
+    background: #101010;
+  }
+}
+
+.arrow {
+  color: white;
+}
+
+.movies {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 1em;
+}
+
+.movie {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+
+.duration {
+  font-family: "Archivo";
+  font-size: 14px;
+  line-height: 20px;
+  color: #9b9b9b;
+  margin: 0;
+}
+
+.movieTitle {
+  margin: 0;
+  font-family: "Inter";
+  font-size: 16px;
+  line-height: 20px;
+  color: #ffffff;
+}
