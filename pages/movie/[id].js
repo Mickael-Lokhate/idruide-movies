@@ -110,6 +110,16 @@ export default function MovieDetails() {
       setCast(data.cast.splice(0, 11));
       setCrew(data.crew);
     };
+
+    if (movie && movie.id != id) {
+      setMovie(null);
+      setVideos(null);
+      setCast(null);
+      setCrew(null);
+      setDirector(null);
+      setScreenplay(null);
+      setStory(null);
+    }
     if (!movie && id) {
       getMovieDatas();
     }
@@ -145,9 +155,6 @@ export default function MovieDetails() {
       })[0];
       if (tmp) setScreenplay(tmp.original_name);
       else setScreenplay("unknown");
-    }
-    if (cast) {
-      console.log(cast);
     }
   });
 

@@ -65,11 +65,17 @@
   font-size: 16px;
   line-height: 20px;
   color: #ffffff;
+  width: 140px;
+}
+
+.movieImg {
+  background-color: #c4c4c4;
 }
 
 .movieImg,
 .movieTitle {
   &:hover {
     cursor: pointer !important;
+    opacity: 0.8;
   }
 }

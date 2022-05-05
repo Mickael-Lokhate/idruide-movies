@@ -11,18 +11,20 @@ export default function Header() {
   const generateElements = () => {
     return movies.map((m, i) => {
       return (
-        <Link href="#" key={i} className={headerStyle.movieLink}>
-          <li className={headerStyle.movie}>
-            <img
-              src={`https://image.tmdb.org/t/p/w200/${m.poster_path}`}
-              className={headerStyle.movieImg}
-            />
-            <div className={headerStyle.movieInfos}>
-              <h5>{m.original_title}</h5>
-              <p>{m.release_date.split("-")[0]}</p>
-            </div>
+        <Link href={`/movie/${m.id}`} key={i} className={headerStyle.movieLink}>
+          <div className={headerStyle.movieContainer}>
+            <li className={headerStyle.movie}>
+              <img
+                src={`https://image.tmdb.org/t/p/w200/${m.poster_path}`}
+                className={headerStyle.movieImg}
+              />
+              <div className={headerStyle.movieInfos}>
+                <h5>{m.original_title}</h5>
+                <p>{m.release_date ? m.release_date.split("-")[0] : "0000"}</p>
+              </div>
+            </li>
             <ArrowRight className={headerStyle.arrowIcon} size={24} />
-          </li>
+          </div>
         </Link>
       );
     });
@@ -58,7 +60,7 @@ export default function Header() {
           <div className={headerStyle.suggestions}>
             <div className={headerStyle.top}>
               <p>Affiner votre recherche pour plus de résultat</p>
-              <p>20+ résultats</p>
+              <p>{movies ? movies.length : "0"}+ résultats</p>
             </div>
             {movies && movies.length > 0 ? (
               <ul className={headerStyle.list}>{generateElements()}</ul>
@@ -66,7 +68,9 @@ export default function Header() {
               <p>No results.</p>
             )}
             <div className={headerStyle.moreResult}>
-              <Link href="#">Voir tous les résultats</Link>
+              <Link href={`/search/${searchVal}`} onClick={() => setSearch("")}>
+                Voir tous les résultats
+              </Link>
             </div>
           </div>
         ) : (

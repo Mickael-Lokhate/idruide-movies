@@ -46,15 +46,15 @@
 
   &:active ~ .icon,
   &:focus ~ .icon,
-  &:active + &::placeholder,
-  &:focus + &::placeholder {
+  &:active &::placeholder,
+  &:focus &::placeholder {
     color: #000 !important;
   }
 
-  &:active + .suggestions,
-  &:focus + .suggestions {
-    display: flex;
-  }
+  // &:active + .suggestions,
+  // &:focus + .suggestions {
+  //   display: flex;
+  // }
 }
 
 .inputContainer {
@@ -78,8 +78,9 @@
   top: 40px;
   border-radius: 0 0 8px 8px !important;
   color: #000;
-  display: none;
+  display: flex;
   flex-direction: column;
+  z-index: 2;
 }
 
 .top {
@@ -128,6 +129,17 @@
   gap: 1em;
 }
 
+.movieContainer {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+}
+
 .movie {
   display: flex;
   flex-direction: row;
@@ -135,8 +147,15 @@
   gap: 1em;
   padding-right: 10px;
   padding-left: 10px;
+  background-color: #fff;
+  width: 100%;
   &:hover {
     cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+
+  &:hover + .arrowIcon {
+    transform: translate(10px);
   }
 }
 
@@ -175,4 +194,8 @@
   justify-content: flex-end;
   right: 10px;
   position: absolute;
+  transition: transform 0.5s;
+  &:hover {
+    transform: translate(10px);
+  }
 }

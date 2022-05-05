@@ -14,7 +14,7 @@ export function convertMinutes(min) {
   return final;
 }
 
-function Movie({ movie }) {
+export function Movie({ movie }) {
   const [movieDetails, setMovieDetails] = useState(null);
   useEffect(() => {
     const getMovieDetails = async () => {
@@ -35,6 +35,7 @@ function Movie({ movie }) {
         <Link href={`/movie/${movieDetails.id}`}>
           <img
             width={140}
+            height={200}
             src={`https://image.tmdb.org/t/p/w500/${movieDetails.poster_path}`}
             className={carouselStyle.movieImg}
           />
