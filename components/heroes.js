@@ -29,7 +29,7 @@ export default function Heroes({ heroes }) {
             <span className={heroesStyle.year}>({releaseYear})</span>
           </h1>
           <div className={heroesStyle.btnContainer}>
-            <Button style={BTN_STYLE.PLAIN} value={"Regarder"} link={"/"} />
+            <Button style={BTN_STYLE.PLAIN} value={"Regarder"} link={"#"} />
             <Button
               style={BTN_STYLE.EMPTY}
               value={"En savoir plus"}

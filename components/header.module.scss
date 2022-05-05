@@ -1,10 +1,17 @@
 .header {
   width: 100%;
+  max-width: 900px;
   margin: 0 auto;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+
+  h1 {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 
 .searchInput {
@@ -13,4 +20,159 @@
   border: none;
   border-radius: 8px;
   color: white;
+  width: 100%;
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  padding-left: 30px;
+  &::placeholder {
+    color: white;
+    font-family: "Archivo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  &:active,
+  &:focus {
+    outline: none;
+    background: #fff;
+    color: #000;
+    border-radius: 8px 8px 0 0;
+  }
+
+  &:active ~ .icon,
+  &:focus ~ .icon,
+  &:active + &::placeholder,
+  &:focus + &::placeholder {
+    color: #000 !important;
+  }
+
+  &:active + .suggestions,
+  &:focus + .suggestions {
+    display: flex;
+  }
+}
+
+.inputContainer {
+  position: relative;
+  width: 430px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  .icon {
+    position: absolute;
+    margin-left: 2px;
+    color: #fff;
+  }
+}
+
+.suggestions {
+  width: 100%;
+  position: absolute;
+  height: 450px;
+  background-color: #fff;
+  top: 40px;
+  border-radius: 0 0 8px 8px !important;
+  color: #000;
+  display: none;
+  flex-direction: column;
+}
+
+.top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 10px;
+  p {
+    font-family: "Archivo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #9b9b9b;
+  }
+}
+
+.moreResult {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  text-decoration-line: underline;
+  border-radius: 0 0 8px 8px !important;
+  padding: 10px;
+  color: #9b9b9b;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  padding: 0;
+  gap: 1em;
+}
+
+.movie {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1em;
+  padding-right: 10px;
+  padding-left: 10px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.movieImg {
+  width: 40px;
+  border-radius: 2px;
+}
+
+.movieInfos {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  max-width: 290px;
+  h5 {
+    font-family: "Archivo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0;
+  }
+  p {
+    margin: 0;
+    font-family: "Archivo";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #9b9b9b;
+  }
+}
+
+.arrowIcon {
+  display: flex !important;
+  flex-direction: row;
+  justify-content: flex-end;
+  right: 10px;
+  position: absolute;
 }
