@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Movie } from "../../components/carousel";
 import Layout from "../../components/layout";
+import { Loading } from "../movie/[id]";
 
 import searchStyle from "./search.module.scss";
 
@@ -23,7 +24,6 @@ export default function SearchPage() {
 
       if (!totalResult) setTotalResult(data.total_results);
       if (page < data.total_pages) {
-        console.log(results);
         return getMovies(page + 1, results);
       } else {
         setMovies(results);
@@ -43,13 +43,17 @@ export default function SearchPage() {
           <p>{totalResult} résultats</p>
         </div>
         <div className={searchStyle.container}>
-          {movies
-            ? movies.length > 0
-              ? movies.map((m, i) => {
-                  return <Movie movie={m} key={i} />;
-                })
-              : false
-            : false}
+          {movies ? (
+            movies.length > 0 ? (
+              movies.map((m, i) => {
+                return <Movie movie={m} key={i} />;
+              })
+            ) : (
+              <div className={searchStyle.loading}>{<Loading />}</div>
+            )
+          ) : (
+            false
+          )}
         </div>
       </Layout>
     </div>

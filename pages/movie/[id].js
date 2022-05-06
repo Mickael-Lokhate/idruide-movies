@@ -1,14 +1,30 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { convertMinutes } from "../../components/carousel";
 import Layout from "../../components/layout";
 import detailsStyle from "./details.module.scss";
-import { ProgressBar, SIZE } from "baseui/progress-bar";
-import Button, { BTN_STYLE } from "../../components/button";
-import { StarRating } from "baseui/rating";
 import ReactPlayer from "react-player";
 import ArrowRight from "baseui/icon/arrow-right";
 import Link from "next/link";
+import { convertMinutes } from "../../components/carousel";
+import { ProgressBar, SIZE } from "baseui/progress-bar";
+import { StarRating } from "baseui/rating";
+import Button, { BTN_STYLE } from "../../components/button";
+
+import { Spinner } from "baseui/spinner";
+import { withStyle } from "baseui";
+
+export const Loading = withStyle(Spinner, {
+  width: "80px",
+  height: "80px",
+  borderLeftWidth: "6px",
+  borderRightWidth: "6px",
+  borderTopWidth: "6px",
+  borderBottomWidth: "6px",
+  borderTopColor: "white",
+  borderBottomColor: "rgba(255, 255, 255, 0.2);",
+  borderLeftColor: "rgba(255, 255, 255, 0.2);",
+  borderRightColor: "rgba(255, 255, 255, 0.2);",
+});
 
 function PlayButton() {
   return (
@@ -23,10 +39,12 @@ function Cast({ cast }) {
     return cast.map((p, i) => {
       return (
         <div className={detailsStyle.castInfos} key={i}>
-          <img
-            src={`https://image.tmdb.org/t/p/w200/${p.profile_path}`}
-            className={detailsStyle.castProfile}
-          />
+          <div className={detailsStyle.castProfileContainer}>
+            <img
+              src={`https://image.tmdb.org/t/p/w200/${p.profile_path}`}
+              className={detailsStyle.castProfile}
+            />
+          </div>
           <h5>{p.original_name}</h5>
           <p>{p.character}</p>
         </div>
@@ -49,7 +67,7 @@ function Cast({ cast }) {
   );
 }
 
-function convertNoteToPercent(note) {
+export function convertNoteToPercent(note) {
   return Math.floor(note * 10);
 }
 
@@ -63,6 +81,7 @@ export default function MovieDetails() {
   const [screenplay, setScreenplay] = useState(null);
   const [story, setStory] = useState(null);
   const [videos, setVideos] = useState(null);
+  const [error, setError] = useState("");
 
   const generateVideosElements = () => {
     return videos.map((v, i) => {
@@ -88,7 +107,8 @@ export default function MovieDetails() {
       );
 
       const data = await res.json();
-      setMovie(data);
+      if (data.success === false) setError("Movie not found");
+      else setMovie(data);
     };
     const getMovieVideos = async () => {
       const res = await fetch(
@@ -96,10 +116,13 @@ export default function MovieDetails() {
       );
 
       const data = await res.json();
-      const tmp = data.results
-        .filter((m) => m.official && m.site.toLowerCase() === "youtube")
-        .splice(0, 3);
-      setVideos(tmp);
+      if (data.success === false) setError("Movie not found");
+      else {
+        const tmp = data.results
+          .filter((m) => m.official && m.site.toLowerCase() === "youtube")
+          .splice(0, 3);
+        setVideos(tmp);
+      }
     };
     const getMovieCrew = async () => {
       const res = await fetch(
@@ -107,11 +130,14 @@ export default function MovieDetails() {
       );
 
       const data = await res.json();
-      setCast(data.cast.splice(0, 11));
-      setCrew(data.crew);
+      if (data.success === false) setError("Movie not found");
+      else {
+        setCast(data.cast.splice(0, 11));
+        setCrew(data.crew);
+      }
     };
 
-    if (movie && movie.id != id) {
+    if (movie && movie.id != id && !error) {
       setMovie(null);
       setVideos(null);
       setCast(null);
@@ -123,23 +149,23 @@ export default function MovieDetails() {
     if (!movie && id) {
       getMovieDatas();
     }
-    if (!crew && id) {
+    if (!crew && id && !error) {
       getMovieCrew();
     }
-    if (!videos && id) {
+    if (!videos && id && !error) {
       getMovieVideos();
     }
-    if (crew && !director) {
+    if (crew && !director && !error) {
       const crewcopy = [...crew];
       const tmp = crewcopy.filter((c) => c.job === "Director")[0];
       if (tmp) setDirector(tmp.original_name);
       else setDirector("unknown");
     }
-    if (crew && !story) {
+    if (crew && !story && !error) {
       const crewcopy = [...crew];
       setStory(crewcopy.filter((c) => c.job === "Story"));
     }
-    if (crew && !screenplay && story) {
+    if (crew && !screenplay && story && !error) {
       const crewcopy = [...crew];
       const tmp = crewcopy.filter((c) => {
         let ret = true;
@@ -282,11 +308,21 @@ export default function MovieDetails() {
       </div>
     );
   } else {
-    return (
-      <Layout>
-        <p>Loading...</p>
-      </Layout>
-    );
+    if (error) {
+      return (
+        <Layout>
+          <div className={detailsStyle.loading}>
+            <p>{error}</p>
+          </div>
+        </Layout>
+      );
+    } else {
+      return (
+        <Layout>
+          <div className={detailsStyle.loading}>{<Loading />}</div>
+        </Layout>
+      );
+    }
   }
 }
 

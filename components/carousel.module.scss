@@ -2,6 +2,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .title {
@@ -15,20 +16,39 @@
 .carousel {
   display: flex;
   flex-direction: row;
+  overflow-x: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .arrowContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 20px;
+  align-items: center;
   background: rgba(16, 16, 16, 0.8);
   border-radius: 48px;
   transition: all 0.5s;
+  position: absolute;
+  top: 40%;
+  width: 64px;
+  height: 40px;
+  z-index: 1000;
   &:hover {
     cursor: pointer;
     background: #101010;
   }
+}
+
+.arrowLeft {
+  left: -88px;
+}
+
+.arrowRight {
+  right: -88px;
 }
 
 .arrow {
@@ -70,6 +90,7 @@
 
 .movieImg {
   background-color: #c4c4c4;
+  border-radius: 4px;
 }
 
 .movieImg,
@@ -78,4 +99,12 @@
     cursor: pointer !important;
     opacity: 0.8;
   }
+}
+
+.avgContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+  align-items: center;
+  width: 80%;
 }

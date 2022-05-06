@@ -3,6 +3,11 @@ import ArrowRight from "baseui/icon/arrow-right";
 import ArrowLeft from "baseui/icon/arrow-left";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { ProgressBar, SIZE } from "baseui/progress-bar";
+import { convertNoteToPercent } from "../pages/movie/[id]";
+import Carousel from "react-multi-carousel";
+
+import "react-multi-carousel/lib/styles.css";
 
 export function convertMinutes(min) {
   let hours = min / 60;
@@ -14,7 +19,7 @@ export function convertMinutes(min) {
   return final;
 }
 
-export function Movie({ movie }) {
+export function Movie({ movie, duration }) {
   const [movieDetails, setMovieDetails] = useState(null);
   useEffect(() => {
     const getMovieDetails = async () => {
@@ -43,33 +48,137 @@ export function Movie({ movie }) {
         <Link href={`/movie/${movieDetails.id}`}>
           <h3 className={carouselStyle.movieTitle}>{movie.title}</h3>
         </Link>
-        <p className={carouselStyle.duration}>
-          {convertMinutes(movieDetails.runtime)}
-        </p>
+        {duration ? (
+          <p className={carouselStyle.duration}>
+            {convertMinutes(movieDetails.runtime)}
+          </p>
+        ) : (
+          <div className={carouselStyle.avgContainer}>
+            <ProgressBar
+              value={convertNoteToPercent(movie.vote_average)}
+              size={SIZE.large}
+              overrides={{
+                BarProgress: {
+                  style: ({ $theme }) => ({
+                    backgroundColor: "#33BD52",
+                  }),
+                },
+                BarContainer: {
+                  style: ({ $theme }) => ({
+                    backgroundColor: "rgba(0, 0, 0, 0.6)",
+                    borderRadius: "50px",
+                  }),
+                },
+              }}
+            />
+            <span className={carouselStyle.votePercent}>
+              {convertNoteToPercent(movie.vote_average)}%
+            </span>
+          </div>
+        )}
       </div>
     );
   }
   return false;
 }
 
-export default function Carousel({ title, data }) {
+export default function MyCarousel({ title, data, duration }) {
   const movies = data.map((m, i) => {
-    return <Movie movie={m} key={i} />;
+    return <Movie movie={m} key={i} duration={duration} />;
   });
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 8,
+      slidesToSlide: 1, // optional, default to 1.
+      partialVisibilityGutter: 40,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 6,
+      slidesToSlide: 1, // optional, default to 1.
+      partialVisibilityGutter: 40,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 3,
+      slidesToSlide: 1, // optional, default to 1.
+      partialVisibilityGutter: 20,
+    },
+  };
+  const ArrowR = ({ onClick, ...rest }) => {
+    const {
+      onMove,
+      carouselState: { currentSlide, deviceType },
+    } = rest;
+    return (
+      <div
+        className={`${carouselStyle.arrowContainer} ${carouselStyle.arrowRight}`}
+      >
+        <ArrowRight
+          size={32}
+          className={`${carouselStyle.arrow}`}
+          onClick={() => onClick()}
+        />
+      </div>
+    );
+  };
+  const ArrowL = ({ onClick, ...rest }) => {
+    const {
+      onMove,
+      carouselState: { currentSlide, deviceType },
+    } = rest;
+    return (
+      <div
+        className={`${carouselStyle.arrowContainer} ${carouselStyle.arrowLeft}`}
+      >
+        <ArrowLeft
+          size={32}
+          className={`${carouselStyle.arrow}`}
+          onClick={() => onClick()}
+        />
+      </div>
+    );
+  };
+  const ButtonGroup = ({ next, previous }) => {
+    return (
+      <>
+        <div
+          className={`${carouselStyle.arrowContainer} ${carouselStyle.arrowLeft}`}
+          onClick={() => previous()}
+        >
+          <ArrowLeft size={32} className={`${carouselStyle.arrow}`} />
+        </div>
+        <div
+          className={`${carouselStyle.arrowContainer} ${carouselStyle.arrowRight}`}
+          onClick={() => next()}
+        >
+          <ArrowRight size={32} className={`${carouselStyle.arrow}`} />
+        </div>
+      </>
+    );
+  };
   return (
     <div className={carouselStyle.container}>
       <h2 className={carouselStyle.title}>{title}</h2>
-      <div className={carouselStyle.carousel}>
-        <div className={carouselStyle.arrowContainer}>
-          <ArrowLeft size={32} className={carouselStyle.arrow} />
-        </div>
 
-        <div className={carouselStyle.movies}>{movies}</div>
-
-        <div className={carouselStyle.arrowContainer}>
-          <ArrowRight size={32} className={carouselStyle.arrow} />
-        </div>
-      </div>
+      <Carousel
+        swipeable={true}
+        draggable={false}
+        responsive={responsive}
+        infinite={false}
+        keyBoardControl={false}
+        containerClass="carousel-container"
+        dotListClass="custom-dot-list-style"
+        itemClass="carousel-item-padding-40-px"
+        arrows={false}
+        renderButtonGroupOutside={true}
+        customButtonGroup={<ButtonGroup />}
+        centerMode={true}
+        renderArrowsWhenDisabled={true}
+      >
+        {movies}
+      </Carousel>
     </div>
   );
 }

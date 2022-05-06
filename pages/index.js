@@ -1,4 +1,4 @@
-import Carousel from "../components/carousel";
+import MyCarousel from "../components/carousel";
 import Heroes from "../components/heroes";
 import Layout from "../components/layout";
 import homeStyle from "./index.module.scss";
@@ -11,8 +11,12 @@ export default function Home({ trend, last_released, top_rated }) {
     <div className={homeStyle.home}>
       <Layout>
         <Heroes heroes={heroes} />
-        <Carousel title="A l'affiche cette semaine" data={lastReleased} />
-        <Carousel title="Les films les mieux notés" data={topRated} />
+        <MyCarousel
+          title="A l'affiche cette semaine"
+          data={lastReleased}
+          duration
+        />
+        <MyCarousel title="Les films les mieux notés" data={topRated} />
       </Layout>
     </div>
   );
