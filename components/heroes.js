@@ -1,13 +1,14 @@
 import heroesStyle from "./heroes.module.scss";
 import Link from "next/link";
 import Button, { BTN_STYLE } from "./button";
+import { useEffect, useRef, useState } from "react";
 
 function Heroe({ heroe }) {
   const releaseYear = heroe.release_date
     ? heroe.release_date.split("-")[0]
     : "0000";
   return (
-    <>
+    <div className={heroesStyle.heroe}>
       <div className={heroesStyle.blurBgImg}>
         <img
           className={heroesStyle.blurImg}
@@ -34,11 +35,77 @@ function Heroe({ heroe }) {
           </div>
         </div>
       </div>
-    </>
+    </div>
+  );
+}
+
+function SliderButtons({ onClick, active }) {
+  const index = [0, 1, 2];
+  return (
+    <ul className={heroesStyle.btnSliderContainer}>
+      {index.map((id) => {
+        if (id == active)
+          return (
+            <li
+              id={id}
+              className={`${heroesStyle.btnSlider} ${heroesStyle.active}`}
+              onClick={onClick}
+              key={id}
+            ></li>
+          );
+        return (
+          <li
+            key={id}
+            id={id}
+            className={`${heroesStyle.btnSlider}`}
+            onClick={onClick}
+          ></li>
+        );
+      })}
+    </ul>
   );
 }
 
 export default function Heroes({ heroes }) {
-  const heroesElements = heroes.map((h) => <Heroe heroe={h} />);
-  return <div className={heroesStyle.heroesContainer}>{heroesElements}</div>;
+  const [currentHeroe, setCurrentHeroe] = useState(heroes[0]);
+  let index = 0;
+  const [active, setActive] = useState(0);
+  const timeoutID = useRef();
+  const generateHeroe = () => {
+    if (index >= heroes.length) {
+      setCurrentHeroe(heroes[0]);
+      index = 0;
+      setActive(0);
+      return;
+    }
+    setCurrentHeroe(heroes[index]);
+    index++;
+    setActive(index);
+    return;
+  };
+
+  const handleSlide = (e) => {
+    const id = Number(e.target.id);
+    if (id && id >= 0 && id < heroes.length) {
+      setCurrentHeroe(heroes[id]);
+      index = id;
+      setActive(id);
+    }
+  };
+
+  useEffect(() => {
+    timeoutID.current = setInterval(generateHeroe, 2500);
+    return () => clearInterval(timeoutID.current);
+  }, []);
+  return (
+    <>
+      <div className={heroesStyle.heroesContainer}>
+        <Heroe heroe={currentHeroe} />;
+      </div>
+      <SliderButtons
+        onClick={handleSlide}
+        active={active === 0 ? active : active - 1}
+      />
+    </>
+  );
 }

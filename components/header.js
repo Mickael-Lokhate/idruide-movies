@@ -11,7 +11,12 @@ export default function Header() {
   const generateElements = () => {
     return movies.map((m, i) => {
       return (
-        <Link href={`/movie/${m.id}`} key={i} className={headerStyle.movieLink}>
+        <Link
+          href={`/movie/${m.id}`}
+          key={i}
+          className={headerStyle.movieLink}
+          onClick={() => setSearch("")}
+        >
           <div className={headerStyle.movieContainer}>
             <li className={headerStyle.movie}>
               <img
@@ -38,14 +43,15 @@ export default function Header() {
     );
     const data = await res.json();
     const results = data.results;
-    console.log(results);
     setMovies(results);
   };
 
   return (
     <header className={headerStyle.header}>
       <Link href="/">
-        <h1 className={headerStyle.title}>MOVIENIGHT</h1>
+        <h1 className={headerStyle.title} onClick={() => setSearch("")}>
+          MOVIENIGHT
+        </h1>
       </Link>
       <div className={headerStyle.inputContainer}>
         <input

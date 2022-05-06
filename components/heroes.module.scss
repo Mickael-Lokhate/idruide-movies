@@ -3,6 +3,7 @@
   max-width: 900px;
   overflow: hidden;
   margin: 0 auto;
+  border-radius: 8px;
 }
 
 .content {
@@ -17,6 +18,7 @@
     rgba(42, 42, 42, 0.8) 100%
   );
   filter: drop-shadow(0px 16px 48px rgba(0, 0, 0, 0.22));
+  transition: all 1s;
 }
 
 .infos {
@@ -71,4 +73,33 @@
   top: 0px;
   filter: blur(100px);
   z-index: -1;
+}
+
+.btnSliderContainer {
+  z-index: 2;
+  position: absolute;
+  top: 200px;
+  right: 470px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  .btnSlider {
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    border-radius: 8px;
+    transition: all 0.5s;
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+    }
+  }
+}
+
+.active {
+  width: 8px;
+  background-color: #fff;
+  border-radius: 8px;
+  height: 40px !important;
 }

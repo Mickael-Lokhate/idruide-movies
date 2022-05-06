@@ -325,23 +325,3 @@ export default function MovieDetails() {
     }
   }
 }
-
-// import MovieDetails from "./movie_details";
-
-// export default function Test({ data }) {
-//   return <MovieDetails data={data} />;
-// }
-
-// export async function getStaticProps({ params }) {
-//   console.log(params);
-//   const res = await fetch(
-//     `https://api.themoviedb.org/3/movie/${params.id}?api_key=9548c19ec4f1f2218d88c267b59e3806`
-//   );
-
-//   const data = await res.json();
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// }

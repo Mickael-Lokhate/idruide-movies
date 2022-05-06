@@ -14,7 +14,6 @@ export default function SearchPage() {
   const [totalResult, setTotalResult] = useState(0);
 
   useEffect(() => {
-    console.log(value);
     const getMovies = async (page, prev) => {
       const res = await fetch(
         `https://api.themoviedb.org/3/search/movie?api_key=9548c19ec4f1f2218d88c267b59e3806&query=${value}&page=${page}`
@@ -33,7 +32,7 @@ export default function SearchPage() {
     if (value) {
       getMovies(1, []);
     }
-  }, [value]);
+  }, [value, totalResult]);
 
   return (
     <div className={searchStyle.search}>
