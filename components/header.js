@@ -48,7 +48,6 @@ export default function Header() {
         <h1 className={headerStyle.title}>MOVIENIGHT</h1>
       </Link>
       <div className={headerStyle.inputContainer}>
-        <Search size={24} className={headerStyle.icon} />
         <input
           value={searchVal}
           placeholder="Rechercher un film, un réalisateur, un acteur"
@@ -56,6 +55,7 @@ export default function Header() {
           type="search"
           onChange={handleSearch}
         />
+        <Search size={24} className={headerStyle.icon} />
         {searchVal ? (
           <div className={headerStyle.suggestions}>
             <div className={headerStyle.top}>

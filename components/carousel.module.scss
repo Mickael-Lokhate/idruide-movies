@@ -1,7 +1,9 @@
 .container {
-  width: 100%;
+  max-width: 900px;
+  max-height: 1424px;
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
   position: relative;
 }
 
@@ -45,12 +47,21 @@
 
 .arrowLeft {
   left: -88px;
+  &:hover .arrowLIcon {
+    transform: translate(-10px);
+  }
 }
 
 .arrowRight {
   right: -88px;
+  &:hover .arrowRIcon {
+    transform: translate(10px);
+  }
 }
-
+.arrowRIcon,
+.arrowLIcon {
+  transition: all 0.5s ease;
+}
 .arrow {
   color: white;
 }

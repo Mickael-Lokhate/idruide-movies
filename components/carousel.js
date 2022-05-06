@@ -89,13 +89,13 @@ export default function MyCarousel({ title, data, duration }) {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 8,
+      items: 5,
       slidesToSlide: 1, // optional, default to 1.
       partialVisibilityGutter: 40,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
-      items: 6,
+      items: 5,
       slidesToSlide: 1, // optional, default to 1.
       partialVisibilityGutter: 40,
     },
@@ -106,40 +106,7 @@ export default function MyCarousel({ title, data, duration }) {
       partialVisibilityGutter: 20,
     },
   };
-  const ArrowR = ({ onClick, ...rest }) => {
-    const {
-      onMove,
-      carouselState: { currentSlide, deviceType },
-    } = rest;
-    return (
-      <div
-        className={`${carouselStyle.arrowContainer} ${carouselStyle.arrowRight}`}
-      >
-        <ArrowRight
-          size={32}
-          className={`${carouselStyle.arrow}`}
-          onClick={() => onClick()}
-        />
-      </div>
-    );
-  };
-  const ArrowL = ({ onClick, ...rest }) => {
-    const {
-      onMove,
-      carouselState: { currentSlide, deviceType },
-    } = rest;
-    return (
-      <div
-        className={`${carouselStyle.arrowContainer} ${carouselStyle.arrowLeft}`}
-      >
-        <ArrowLeft
-          size={32}
-          className={`${carouselStyle.arrow}`}
-          onClick={() => onClick()}
-        />
-      </div>
-    );
-  };
+
   const ButtonGroup = ({ next, previous }) => {
     return (
       <>
@@ -147,13 +114,19 @@ export default function MyCarousel({ title, data, duration }) {
           className={`${carouselStyle.arrowContainer} ${carouselStyle.arrowLeft}`}
           onClick={() => previous()}
         >
-          <ArrowLeft size={32} className={`${carouselStyle.arrow}`} />
+          <ArrowLeft
+            size={32}
+            className={`${carouselStyle.arrow} ${carouselStyle.arrowLIcon}`}
+          />
         </div>
         <div
           className={`${carouselStyle.arrowContainer} ${carouselStyle.arrowRight}`}
           onClick={() => next()}
         >
-          <ArrowRight size={32} className={`${carouselStyle.arrow}`} />
+          <ArrowRight
+            size={32}
+            className={`${carouselStyle.arrow} ${carouselStyle.arrowRIcon}`}
+          />
         </div>
       </>
     );

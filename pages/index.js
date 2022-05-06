@@ -24,7 +24,7 @@ export default function Home({ trend, last_released, top_rated }) {
 
 export async function getStaticProps() {
   const trend = await fetch(
-    `https://api.themoviedb.org/3/trending/all/week?api_key=9548c19ec4f1f2218d88c267b59e3806`
+    `https://api.themoviedb.org/3/trending/movie/week?api_key=9548c19ec4f1f2218d88c267b59e3806`
   );
   const lastReleased = await fetch(
     `https://api.themoviedb.org/3/movie/now_playing?api_key=9548c19ec4f1f2218d88c267b59e3806`
